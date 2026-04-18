@@ -1,4 +1,4 @@
-# Hi-PPO 🦛 
+# Hi-PPO 
 
 ### **A Bold, Neo-Brutalist Visual Micro-Blogging Experience.**
 
