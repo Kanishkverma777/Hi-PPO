@@ -1,13 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import API_URL from '../config'
 
 const CreatePost = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const formData = new FormData(e.target);
 
     axios.post(`${API_URL}/create-post`, formData)
@@ -17,6 +19,7 @@ const CreatePost = () => {
     })
     .catch ((err) => {
         console.log(err);
+        setLoading(false);
         alert('Error creating post');
     });
   }
@@ -34,30 +37,37 @@ const CreatePost = () => {
 
         {/* Unified Content Area */}
         <div className="content-area">
-          <form className="brutal-form" onSubmit={handleSubmit}>
-            
-            <div className="form-field">
-              <label className="form-label">Add Image</label>
-              <div className="upload-zone">
-                <input type="file" name="image" accept="image/*" required />
+          {loading ? (
+            <div className="loading-container">
+              <div className="brutal-loader"></div>
+              <h2 className="loading-text">POSTING TO HIPPO...</h2>
+            </div>
+          ) : (
+            <form className="brutal-form" onSubmit={handleSubmit}>
+              
+              <div className="form-field">
+                <label className="form-label">Add Image</label>
+                <div className="upload-zone">
+                  <input type="file" name="image" accept="image/*" required />
+                </div>
               </div>
-            </div>
 
-            <div className="form-field">
-              <label className="form-label">Caption</label>
-              <input 
-                type="text" 
-                name="caption" 
-                className="text-input" 
-                placeholder="Write something cool..." 
-                required 
-              />
-            </div>
+              <div className="form-field">
+                <label className="form-label">Caption</label>
+                <input 
+                  type="text" 
+                  name="caption" 
+                  className="text-input" 
+                  placeholder="Write something cool..." 
+                  required 
+                />
+              </div>
 
-            <button type="submit" className="home-card btn-orange" style={{padding: '24px', width: '100%'}}>
-              <h2>Post It!</h2>
-            </button>
-          </form>
+              <button type="submit" className="home-card btn-orange" style={{padding: '24px', width: '100%'}}>
+                <h2>Post It!</h2>
+              </button>
+            </form>
+          )}
         </div>
 
       </div>

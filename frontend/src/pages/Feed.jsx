@@ -5,9 +5,11 @@ import API_URL from '../config'
 
 const Feed = () => {
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
+    setLoading(true);
     axios.get(`${API_URL}/posts`)
       .then((res) => {
         const fetchedPosts = res.data.posts.map((p, i) => ({
@@ -17,9 +19,11 @@ const Feed = () => {
           likes: Math.floor(Math.random() * 200) + 1
         }));
         setPosts(fetchedPosts.reverse());
+        setLoading(false);
       })
       .catch(err => {
         console.log(err);
+        setLoading(false);
       });
   }, []);
 
@@ -49,34 +53,41 @@ const Feed = () => {
 
         {/* Unified Content Area (Scrollable) */}
         <div className="content-area">
-          <div className="post-list">
-            {posts.length > 0 ? (
-              posts.map((post) => (
-                <div key={post._id} className="feed-card">
-                  <div className="feed-image">
-                    <img src={post.image} alt="post" />
+          {loading ? (
+            <div className="loading-container">
+              <div className="brutal-loader"></div>
+              <h2 className="loading-text">HIPPO IS LOADING...</h2>
+            </div>
+          ) : (
+            <div className="post-list">
+              {posts.length > 0 ? (
+                posts.map((post) => (
+                  <div key={post._id} className="feed-card">
+                    <div className="feed-image">
+                      <img src={post.image} alt="post" />
+                    </div>
+                    <div className="feed-caption" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '20px' }}>
+                      <p style={{ flex: 1 }}>{post.caption}</p>
+                      <button 
+                        className="brutal-btn delete-btn" 
+                        onClick={() => handleDelete(post._id)}
+                        title="Delete Post"
+                        style={{ padding: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '45px', height: '45px', borderRadius: '12px', background: 'white' }}
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M3 6h18m-2 0v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2m-6 5v6m4-6v6"/>
+                        </svg>
+                      </button>
+                    </div>
                   </div>
-                  <div className="feed-caption" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '20px' }}>
-                    <p style={{ flex: 1 }}>{post.caption}</p>
-                    <button 
-                      className="brutal-btn delete-btn" 
-                      onClick={() => handleDelete(post._id)}
-                      title="Delete Post"
-                      style={{ padding: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '45px', height: '45px', borderRadius: '12px', background: 'white' }}
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M3 6h18m-2 0v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2m-6 5v6m4-6v6"/>
-                      </svg>
-                    </button>
-                  </div>
+                ))
+              ) : (
+                <div style={{ textAlign: 'center', padding: '100px 0' }}>
+                  <h2 className="form-label">No posts yet!</h2>
                 </div>
-              ))
-            ) : (
-              <div style={{ textAlign: 'center', padding: '100px 0' }}>
-                <h2 className="form-label">No posts yet!</h2>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
+          )}
         </div>
 
       </div>

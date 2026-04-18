@@ -362,3 +362,60 @@ body {
   
   .home-card h2 { font-size: 28px; }
 }
+
+/* Loading Screen Styles */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  gap: 30px;
+}
+
+.brutal-loader {
+  width: 80px;
+  height: 80px;
+  border: 6px solid #1c1c1c;
+  background-color: #f17056; /* Orange */
+  box-shadow: 8px 8px 0px #1c1c1c;
+  animation: brutal-spin 1.2s cubic-bezier(0.17, 0.67, 0.83, 0.67) infinite;
+}
+
+@keyframes brutal-spin {
+  0% {
+    transform: rotate(0deg) scale(1);
+    background-color: #f17056;
+  }
+  25% {
+    transform: rotate(90deg) scale(1.1);
+    background-color: #a4c3f5; /* Blue */
+  }
+  50% {
+    transform: rotate(180deg) scale(1);
+    background-color: #ffde59; /* Yellow */
+  }
+  75% {
+    transform: rotate(270deg) scale(1.1);
+    background-color: #92e3a9; /* Green */
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+    background-color: #f17056;
+  }
+}
+
+.loading-text {
+  font-family: 'Fraunces', serif;
+  font-size: 32px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  animation: pulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes pulse {
+  from { transform: scale(1); opacity: 1; }
+  to { transform: scale(0.95); opacity: 0.7; }
+}
