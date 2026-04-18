@@ -4,13 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import API_URL from '../config'
 
 const Feed = () => {
-  const [posts, setPosts] = useState([
-    {
-      _id: 1,
-      image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80',
-      caption: 'Initial post for harmony check! Neo-brutalism is awesome.'
-    }
-  ]);
+  const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
